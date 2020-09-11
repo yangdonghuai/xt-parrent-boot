@@ -1,0 +1,5 @@
+# Project exclude paths
+/xt-controller/target/
+/xt-dao/target/
+/xt-pojo/target/
+/xt-service/target/

@@ -5,6 +5,9 @@ import com.xtkj.pojo.UserInfo;
 
 public interface IUserInfoService extends IService<UserInfo> {
 
-    //删除后增加到已删除表
-    void delUser(UserInfo userInfo);
+    void upd(UserInfo userInfo);
+
+    void add(UserInfo userInfo);
+
+    void del(Integer id);
 }

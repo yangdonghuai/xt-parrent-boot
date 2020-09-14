@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="xt-pojo" />
+        <module name="xt-tools" />
         <module name="xt-service" />
         <module name="xt-controller" />
         <module name="xt-dao" />

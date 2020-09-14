@@ -16,12 +16,13 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <import resource="classpath:redis-config.xml"/>
+    <bean class="com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor"/>
+
     <context:annotation-config></context:annotation-config>
     <context:component-scan base-package="com.xtkj">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-    <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
-    <context:property-placeholder location="classpath:log4j.properties"></context:property-placeholder>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driver}"></property>
@@ -64,4 +65,5 @@
 
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
     <tx:annotation-driven></tx:annotation-driven>
+
 </beans>

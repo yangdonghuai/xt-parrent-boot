@@ -18,4 +18,5 @@ public class UserInfo implements Serializable {
     private String userPwd;
     @Version
     private Integer version;
+
 }

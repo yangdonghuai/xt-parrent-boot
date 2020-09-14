@@ -1,11 +1,15 @@
 package com.xtkj.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.google.gson.Gson;
 import com.xtkj.pojo.UserInfo;
+import com.xtkj.service.IJedisClient;
 import com.xtkj.service.IUserInfoService;
+import com.xtkj.tools.LoadEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,38 +19,35 @@ public class UserInfoController {
 
     @Autowired
     private IUserInfoService iUserInfoService;
+
+    @Autowired
+    private IJedisClient jedisClient;
+
     // 查询所有
-    @RequestMapping("user/getUsers")
-    public List<UserInfo> getUsers(){
-        List<UserInfo> list = iUserInfoService.list();
-        return list;
+    @GetMapping("getUsers")
+    public List<UserInfo> getUsers() {
+        return jedisClient.hgetAll(LoadEnum.HOME.getClazz());
     }
 
     // 增加
-    @RequestMapping("user/addUser")
-    public boolean addUser(UserInfo user){
-       return iUserInfoService.save(user);
+    @PostMapping("addUser")
+    @Transactional
+    public void addUser(UserInfo userInfo) {
+        iUserInfoService.add(userInfo);
     }
 
     // 修改
-    @RequestMapping("user/updUser")
-    public boolean updUser(UserInfo user){
-        return iUserInfoService.updateById(user);
+    @PostMapping("updUser")
+    @Transactional
+    public void updUser(UserInfo userInfo) {
+        iUserInfoService.upd(userInfo);
     }
 
-    // 分页
-    @RequestMapping("user/getPages")
-    public List<UserInfo> getPages(int current,int size){
-        IPage<UserInfo> page = new Page<>(current, size);
-        IPage<UserInfo> page1 = iUserInfoService.page(page);
-        return page1.getRecords();
-    }
-
-    // 删除后增加
-    @RequestMapping("user/delUser")
+    // 删除
+    @PostMapping("delUser")
+    @Transactional
     public void delUser(Integer id){
-        UserInfo userInfo = iUserInfoService.getById(id);
-        iUserInfoService.delUser(userInfo);
+        iUserInfoService.del(id);
     }
 
 }
